@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogue>
+    <book id="b001">
+        <title>F1</title>
+        <author>Lewis</author>
+        <price>99.9</price>
+    </book>
+    <book id="b002">
+        <title>Drive to survive</title>
+        <author>Ning Wei</author>
+        <price>11.2</price>
+    </book>
+</catalogue>

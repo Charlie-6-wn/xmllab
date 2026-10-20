@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Catalogue from XML</title>
+    <style>
+        .book-item {
+            border: 1px solid #666;
+            padding: 12px;
+            margin: 8px 0;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Catalogue</h1>
+    <div id="bookOutput"></div>
+
+    <script>
+        fetch('book.xml')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Cannot load XML file");
+                }
+                return response.text();
+            })
+            .then(xmlText => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+                const bookElements = xmlDoc.querySelectorAll("book");
+                const outputDiv = document.getElementById("bookOutput");
+
+                bookElements.forEach(book => {
+                    const bookId = book.getAttribute("id");
+                    const title = book.querySelector("title").textContent;
+                    const author = book.querySelector("author").textContent;
+                    const price = book.querySelector("price").textContent;
+
+                    const bookDiv = document.createElement("div");
+                    bookDiv.className = "book-item";
+                    bookDiv.innerHTML = `
+                        <p><strong>Book ID:</strong> ${bookId}</p>
+                        <p><strong>Title:</strong> ${title}</p>
+                        <p><strong>Author:</strong> ${author}</p>
+                        <p><strong>Price:</strong> $${price}</p>
+                    `;
+                    outputDiv.appendChild(bookDiv);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById("bookOutput").innerText = "Error loading book data.";
+            });
+    </script>
+</body>
+</html>
